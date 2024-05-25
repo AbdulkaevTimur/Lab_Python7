@@ -1,0 +1,55 @@
+#Лабораторная работа №7. Вариант 1.Видео-хостинг подготовил к просмотру К фильмов.
+# По абонементу можно выбрать любую программу, состоящую из N фильмов.
+# Сформировать все возможные варианты программ.
+from tkinter import *
+from random import uniform
+from tkinter.ttk import Combobox
+
+
+def search():
+    field.delete(0.0, 'end')
+    lst = ['CITIZEN KANE', 'VERTIGO', '2001: A SPACE ODYSSEY', 'TOKYO STORY', 'THE RULES OF THE GAME',
+           'THE GODFATHER', '8½', 'SUNRISE', 'THE SEARCHERS', 'SEVEN SAMURAI', 'SINGIN\' IN THE RAIN',
+           'JEANNE DIELMAN', '23 QUAI DU COMMERCE', '1080 BRUXELLES', 'APOCALYPSE NOW', 'TAXI DRIVER',
+           'BICYCLE THIEVES', 'PERSONA', 'IN THE MOOD FOR LOVE', 'THE PASSION OF JOAN OF ARC', 'BREATHLESS',
+           'L\'ATALANTE', 'BATTLESHIP POTEMKIN', 'THE MAN WITH A MOVIE CAMERA', 'MIRROR', 'RASHOMON',
+           'CITY LIGHTS', 'THE 400 BLOWS', 'ANDREI RUBLEV', 'PSYCHO', 'AU HASARD BALTHAZAR', 'MULHOLLAND DR.',
+           'THE GODFATHER PART II', 'SOME LIKE IT HOT', 'ORDET', 'LA DOLCE VITA', 'RAGING BULL',
+           'THE NIGHT OF THE HUNTER', 'L\'AVVENTURA', 'CASABLANCA', 'REAR WINDOW', 'BLADE RUNNER', 'CONTEMPT',
+           'BARRY LYNDON', 'PATHER PANCHALI', 'TOUCH OF EVIL', 'SUNSET BLVD.', 'STALKER',
+           'CLOSE-UP', 'LAWRENCE OF ARABIA'
+           ]
+    text = search_entry.get()
+    for i in range(len(lst)):
+        if text.upper() in lst[i]:
+            if float(combo_ratings.get()) <= rating[i]:
+                field.insert(0.0, f'{lst[i]}, РЕЙТИНГ: {rating[i]}\n')
+
+rating = []
+for i in range(50):
+    rating.append(round(uniform(1, 5), 2))
+
+height = 600
+width = 600
+root = Tk()
+root.title('ВсеФильмы')
+root.geometry(f'{height}x{width}')
+root.resizable(width=False, height=False)
+
+field = Text(root, height=15, width=50, wrap=WORD)
+field.pack(side=BOTTOM, pady=(0, 200))
+
+value = StringVar()
+
+search_label = Label(text='Поиск фильмов:                                       Рейтинг фильмов от:', font=(40, 12))
+search_entry = Entry(textvariable=value)
+search_button = Button(root, text='Найти', font=(40, 12), command=search)
+combo_ratings = Combobox(root, values=('1', '2', '3', '4', '5'))
+combo_ratings.current(0)
+
+search_label.pack(pady=(30, 0))
+combo_ratings.pack(side=RIGHT, pady=(0, 30), padx=(0, 50))
+search_entry.pack(padx=(0, 0))
+search_button.pack(pady=(5, 0), padx=(0, 0))
+
+root.mainloop()
