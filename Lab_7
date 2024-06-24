@@ -1,6 +1,8 @@
-#Лабораторная работа №7. Вариант 1.Видео-хостинг подготовил к просмотру К фильмов.
-# По абонементу можно выбрать любую программу, состоящую из N фильмов.
-# Сформировать все возможные варианты программ.
+'''
+Лабораторная работа №7. Вариант 1.Видео-хостинг подготовил к просмотру К фильмов.
+По абонементу можно выбрать любую программу, состоящую из N фильмов.
+Сформировать все возможные варианты программ.
+'''
 from tkinter import *
 from random import uniform
 from tkinter.ttk import Combobox
@@ -8,6 +10,7 @@ from tkinter.ttk import Combobox
 
 def search():
     field.delete(0.0, 'end')
+    sorted_rates = []
     lst = ['CITIZEN KANE', 'VERTIGO', '2001: A SPACE ODYSSEY', 'TOKYO STORY', 'THE RULES OF THE GAME',
            'THE GODFATHER', '8½', 'SUNRISE', 'THE SEARCHERS', 'SEVEN SAMURAI', 'SINGIN\' IN THE RAIN',
            'JEANNE DIELMAN', '23 QUAI DU COMMERCE', '1080 BRUXELLES', 'APOCALYPSE NOW', 'TAXI DRIVER',
@@ -20,14 +23,19 @@ def search():
            'CLOSE-UP', 'LAWRENCE OF ARABIA'
            ]
     text = search_entry.get()
-    for i in range(len(lst)):
-        if text.upper() in lst[i]:
-            if float(combo_ratings.get()) <= rating[i]:
-                field.insert(0.0, f'{lst[i]}, РЕЙТИНГ: {rating[i]}\n')
+    for i in range(int(text)):
+        sorted_rates.append(rating[i])
+        sorted_rates = sorted(sorted_rates)
+    for i in range(int(text)):
+        field.insert(0.0, f'{lst[i]}, РЕЙТИНГ: {sorted_rates[i]}\n')
+    field.insert(0.0, 'ТОП ФИЛЬМОВ:\n')
+    field.insert(0.0, f'{lst[int(text)-1]}, РЕЙТИНГ: {sorted_rates[int(text)-1]}\n'+'\n')
+    field.insert(0.0, 'ЛУЧШИЙ ФИЛЬМ:\n')
 
 rating = []
 for i in range(50):
     rating.append(round(uniform(1, 5), 2))
+    rating = sorted(rating, reverse=True)
 
 height = 600
 width = 600
@@ -41,14 +49,11 @@ field.pack(side=BOTTOM, pady=(0, 200))
 
 value = StringVar()
 
-search_label = Label(text='Поиск фильмов:                                       Рейтинг фильмов от:', font=(40, 12))
+search_label = Label(text='Введите количество фильмов:', font=(40, 12))
 search_entry = Entry(textvariable=value)
 search_button = Button(root, text='Найти', font=(40, 12), command=search)
-combo_ratings = Combobox(root, values=('1', '2', '3', '4', '5'))
-combo_ratings.current(0)
 
 search_label.pack(pady=(30, 0))
-combo_ratings.pack(side=RIGHT, pady=(0, 30), padx=(0, 50))
 search_entry.pack(padx=(0, 0))
 search_button.pack(pady=(5, 0), padx=(0, 0))
 
